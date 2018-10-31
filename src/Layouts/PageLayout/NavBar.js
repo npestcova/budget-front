@@ -1,9 +1,44 @@
 import React, { Component } from 'react';
-
+import './NavBar.css';
 
 class NavBar extends Component {
 
+    constructor() {
+        super();
+
+        this.state = {
+            showProfileBar: false,
+        }
+    }
+
+    toggleProfileBar() {
+        console.log('inside');
+        console.log(this.state);
+
+        this.setState({
+            showProfileBar: !this.state.showProfileBar,
+        })
+    }
+
     render() {
+
+        let linksMarkup = this.props.menuItems.map((menuItem, index) => {
+            let linkClass = menuItem.active ? 'nav-link active' : 'nav-link';
+            return (
+                <li className="nav-item" key={index}>
+                    <a className={linkClass} href={menuItem.url}>{menuItem.label}</a>
+                </li>
+            );
+        });
+
+        let profileBar = this.state.showProfileBar ? (
+            <ul className="dropdown-menu navbar-dark  bg-primary show">
+                <li className="nav-item ">
+                    <a className="nav-link" href="/logout">Sign out</a>
+                </li>
+            </ul>
+        ) : '';
+
         return (
             <nav className="navbar fixed-top navbar-expand-lg navbar-dark  bg-primary ">
                 <a className="navbar-brand" href="/">
@@ -17,43 +52,16 @@ class NavBar extends Component {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
-                        <li className="nav-item active">
-                            <a className="nav-link" href="/">Home</a>
-                        </li>
-
-                        <li className="nav-item ">
-                            <a className="nav-link" href="/transaction">Transactions</a>
-                        </li>
-
-                        <li className="nav-item ">
-                            <a className="nav-link" href="/cashflow">CashFlow</a>
-                        </li>
-
-                        <li className="nav-item ">
-                            <a className="nav-link" href="/budget">Budget</a>
-                        </li>
-
-                        <li className="nav-item ">
-                            <a className="nav-link" href="/keyword">Keywords</a>
-                        </li>
-
-                        <li className="nav-item ">
-                            <a className="nav-link" href="">Import</a>
-                        </li>
+                        {linksMarkup}
                     </ul>
 
                     <ul className="navbar-nav navbar-right">
 
                         <li className="nav-item dropdown">
-                            <a href="javascript:void(0)" className="nav-link dropdown-toggle" data-toggle="dropdown">
+                            <a href="javascript:void(0)" onClick={this.toggleProfileBar.bind(this)} className="nav-link dropdown-toggle" data-toggle="dropdown">
                                 npestcova@gmail.com <b className="caret"></b>
                             </a>
-                            <ul className="dropdown-menu navbar-dark  bg-primary">
-
-                                <li className="nav-item ">
-                                    <a className="nav-link" href="/logout">Sign out</a>
-                                </li>
-                            </ul>
+                            {profileBar}
                         </li>
                     </ul>
                 </div>

@@ -1,0 +1,5 @@
+nav a.navbar-brand > img {
+    display: inline;
+    margin-top: -10px;
+    margin-right: 10px;
+}
