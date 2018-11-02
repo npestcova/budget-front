@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import NavBar from './NavBar';
+import TopMenu from './TopMenu';
+
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import {locationRoutes} from "../../Location/Config/locationRoutes";
 
 class DefaultLayout extends Component {
     render() {
@@ -11,24 +15,25 @@ class DefaultLayout extends Component {
             {label: 'Keywords', url: '/keyword', active: false},
             {label: 'Import', url: '/import', active: false},
         ];
+        let userName = "Natalia P."; //@TODO: load this info
 
         return (
-            <div>
-                <NavBar menuItems={menuItems} />
-                <div className="container">
+            <Router>
+                <div>
+                    <TopMenu menuItems={menuItems} userName={userName}/>
 
-
-                    <div className="row">
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        test  ^^ margins
-
+                    <div >
+                        {locationRoutes.map((route, index) => (
+                            <Route
+                                key={index}
+                                path={route.path}
+                                exact={route.exact}
+                                component={route.component}
+                            />
+                        ))}
                     </div>
-
                 </div>
-            </div>
+            </Router>
         );
     }
 }
